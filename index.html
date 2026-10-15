@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gridiron Recall — Football Connection Chain</title>
+<style>
+:root{--bg:#101820;--panel:#17232d;--panel2:#1d2b36;--cream:#f2efe8;--muted:#aeb9c2;--green:#789b83;--green2:#9db9a3;--line:#30404b;--red:#d77b73}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--cream);background:radial-gradient(ellipse at 50% -20%,#263a45 0%,var(--bg) 60%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.shell{width:min(1040px,calc(100% - 32px));margin:auto;padding:28px 0 42px}header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:36px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;display:grid;place-items:center;border:1px solid #597165;border-radius:12px;background:#21352d;color:#c9dccd;font-size:22px}
+.brand-name{font-weight:850;letter-spacing:1.7px;font-size:15px}.brand-sub{margin-top:3px;color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}.season{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:8px 12px;font-size:12px}
+.hero{text-align:center;margin:0 auto 28px;max-width:680px}.eyebrow{color:#9fbea8;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+h1{font-size:clamp(34px,5vw,54px);letter-spacing:-1.7px;line-height:1.05;margin:13px 0 12px}h1 span{color:#9db9a3}.hero p{color:var(--muted);line-height:1.65;margin:0 auto;max-width:590px;font-size:15px}
+.game{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,.8fr);gap:18px;align-items:stretch}.card{background:linear-gradient(145deg,rgba(29,43,54,.97),rgba(21,32,41,.97));border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(0,0,0,.18)}
+.main-card{padding:24px}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.label{color:var(--muted);text-transform:uppercase;letter-spacing:1.7px;font-size:10px;font-weight:800}.round-pill{border:1px solid #3a5146;color:#b9d0be;background:#21372c;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.player-area{min-height:205px;border-radius:16px;border:1px solid #34454f;background:linear-gradient(120deg,#1b2a34,#202f38);padding:25px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}.player-area:after{content:"";position:absolute;width:210px;height:210px;border:1px solid rgba(157,185,163,.09);border-radius:50%;right:-65px;top:-65px;box-shadow:0 0 0 22px rgba(157,185,163,.025),0 0 0 48px rgba(157,185,163,.02)}
+.player-number{color:#819b8a;font-size:12px;letter-spacing:2px;font-weight:800;position:relative;z-index:1}.player-name{font-size:clamp(30px,4vw,42px);font-weight:850;letter-spacing:-1px;margin:9px 0 7px;position:relative;z-index:1;overflow-wrap:anywhere}.player-meta{color:var(--muted);font-size:13px;position:relative;z-index:1}
+.question{margin:21px 0 12px;color:#d5ded8;font-size:14px}.answer-row{display:flex;gap:10px}input{flex:1;min-width:0;border:1px solid #3b4d58;border-radius:11px;background:#101a22;color:var(--cream);padding:14px 15px;font:inherit;outline:none}
+input:focus{border-color:#8aa895;box-shadow:0 0 0 3px rgba(138,168,149,.13)}input::placeholder{color:#75838d}button{border:0;cursor:pointer;font:inherit;font-weight:750;border-radius:11px;transition:transform .15s,background .15s}button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
+.submit{padding:0 20px;background:#789b83;color:#101820}.submit:hover{background:#91b29b}.feedback{min-height:22px;margin-top:11px;color:var(--muted);font-size:12px}.feedback.good{color:#a9d1b3}.feedback.bad{color:#e7a19a}
+.bottom-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:18px;margin-top:16px}.hint{color:var(--muted);font-size:11px}.secondary{color:#d3ddd7;background:#263742;border:1px solid #3a4b55;padding:10px 13px;font-size:12px}.secondary:hover{background:#30444f}
+.side-card{padding:22px;display:flex;flex-direction:column;gap:22px}.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.6px;font-weight:850;color:#d4ddd7;margin-bottom:13px}.modes{display:grid;gap:8px}
+.mode{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 13px;background:#14212a;border:1px solid #30414b;color:var(--cream);text-align:left;border-radius:11px}.mode.active{background:#24382e;border-color:#668b73;box-shadow:inset 3px 0 #8eb39a}.mode strong{display:block;font-size:13px}.mode small{display:block;color:var(--muted);font-size:11px;margin-top:3px;font-weight:500}.seconds{color:#b7c6bd;font-size:12px;white-space:nowrap}
+.timer-wrap{display:flex;align-items:center;gap:15px}.timer{width:76px;height:76px;flex:0 0 76px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#8eaf98 100%,#34454e 0);position:relative}.timer:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#17242d}.timer-inner{position:relative;text-align:center}.timer-value{font-size:20px;font-weight:850;font-variant-numeric:tabular-nums}.timer-unit{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}.timer-note{color:var(--muted);font-size:12px;line-height:1.5}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#14212a;border:1px solid #2d3d47;border-radius:12px;padding:13px}.stat-num{font-size:25px;font-weight:850}.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.rule{color:var(--muted);font-size:12px;line-height:1.65}.rule b{color:#d8e0db}.db-status{font-size:11px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}.db-status strong{color:#b9d0be}
+.footer{text-align:center;margin-top:24px;color:#788791;font-size:11px;line-height:1.6}
+@media(max-width:760px){header{margin-bottom:27px}.game{grid-template-columns:1fr}.side-card{display:grid;grid-template-columns:1fr 1fr}.side-card .rules-block{grid-column:1/-1}}
+@media(max-width:500px){.shell{width:calc(100% - 22px);padding-top:17px}.season{display:none}.main-card{padding:15px}.side-card{display:flex;padding:17px}.answer-row{flex-direction:column}.submit{padding:14px}.player-area{min-height:180px;padding:20px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div class="brand"><div class="logo">🏈</div><div><div class="brand-name">GRIDIRON RECALL</div><div class="brand-sub">Know the game. Beat the clock.</div></div></div><div class="season">NFL CONNECTION CHAIN</div></header>
+<section class="hero"><div class="eyebrow">The football memory game</div><h1>Connect the dots.<br><span>Keep the chain alive.</span></h1><p>Every answer becomes the next prompt. Start with a recognizable quarterback, running back, wide receiver, or tight end. Link players to teams, colleges, and jersey numbers before time runs out.</p></section>
+<section class="game">
+<main class="card main-card">
+<div class="topline"><div class="label" id="promptLabel">Starting player</div><div class="round-pill" id="roundPill">ROUND 01</div></div>
+<div class="player-area"><div class="player-number" id="playerNumber">LOADING DATABASE</div><div class="player-name" id="playerName">Loading NFL players…</div><div class="player-meta" id="playerMeta">Reading players.json</div></div>
+<div class="question" id="questionText">Load your player database to begin.</div>
+<form id="answerForm" class="answer-row"><input id="answerInput" autocomplete="off" placeholder="Type your answer..." aria-label="Your answer" disabled><button class="submit" id="submitBtn" type="submit" disabled>Submit answer ↗</button></form>
+<div class="feedback" id="feedback" aria-live="polite">Waiting for players.json…</div>
+<div class="bottom-row"><div class="hint">Correct answers extend the chain.</div><button class="secondary" id="skipBtn" type="button" disabled>Restart chain ↻</button></div>
+</main>
+<aside class="card side-card">
+<div><div class="section-title">Choose difficulty</div><div class="modes">
+<button class="mode active" data-mode="easy"><span><strong>Easy</strong><small>Plenty of time</small></span><span class="seconds">30 sec</span></button>
+<button class="mode" data-mode="medium"><span><strong>Medium</strong><small>Keep it moving</small></span><span class="seconds">15 sec</span></button>
+<button class="mode" data-mode="hard"><span><strong>Hard</strong><small>Trust your instincts</small></span><span class="seconds">7.5 sec</span></button>
+</div></div>
+<div><div class="section-title">Time remaining</div><div class="timer-wrap"><div class="timer" id="timerRing"><div class="timer-inner"><div class="timer-value" id="timerValue">30</div><div class="timer-unit">seconds</div></div></div><div class="timer-note" id="timerNote">Load the database<br>to start playing.</div></div></div>
+<div><div class="section-title">Your session</div><div class="stats"><div class="stat"><div class="stat-num" id="score">0</div><div class="stat-label">Correct</div></div><div class="stat"><div class="stat-num" id="streak">0</div><div class="stat-label">Streak</div></div></div></div>
+<div class="rules-block"><div class="section-title">How to play</div><div class="rule"><b>1.</b> Player appears: enter a team, college, or number.<br><b>2.</b> That answer becomes the prompt.<br><b>3.</b> Enter a connected QB, RB, WR, or TE.<br><b>4.</b> That player becomes the next prompt.</div><div class="db-status" id="dbStatus">Database: <strong>not loaded</strong></div></div>
+</aside>
+</section>
+<div class="footer">Uses your local players.json database. Run this site through a local web server so the browser can load the file.</div>
+</div>
+<script>
+const durations={easy:30,medium:15,hard:7.5};
+let mode="easy",timeLeft=30,timerId=null,score=0,streak=0,round=1,players=[],running=false;
+let currentPrompt=null,usedPlayerIds=new Set(),lastPlayerId=null;
+const $=id=>document.getElementById(id);
+function norm(s){return String(s??"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/&/g,"and").replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");}
+const TEAM_ALIASES={
+ "ari":"arizona cardinals","arizona":"arizona cardinals","atl":"atlanta falcons","bal":"baltimore ravens","baltimore":"baltimore ravens",
+ "buf":"buffalo bills","car":"carolina panthers","chi":"chicago bears","cin":"cincinnati bengals","cle":"cleveland browns",
+ "dal":"dallas cowboys","den":"denver broncos","det":"detroit lions","gb":"green bay packers","gn bay":"green bay packers",
+ "hou":"houston texans","ind":"indianapolis colts","jax":"jacksonville jaguars","kc":"kansas city chiefs","kan city":"kansas city chiefs",
+ "lac":"los angeles chargers","sd":"san diego chargers","la chargers":"los angeles chargers","lar":"los angeles rams","stl":"st louis rams",
+ "lv":"las vegas raiders","oak":"oakland raiders","la raiders":"las vegas raiders","mia":"miami dolphins","min":"minnesota vikings",
+ "ne":"new england patriots","no":"new orleans saints","nyg":"new york giants","ny giants":"new york giants","nyj":"new york jets","ny jets":"new york jets",
+ "phi":"philadelphia eagles","pit":"pittsburgh steelers","sea":"seattle seahawks","sf":"san francisco 49ers","san fran":"san francisco 49ers",
+ "tb":"tampa bay buccaneers","ten":"tennessee titans","was":"washington commanders","wsh":"washington commanders","washington redskins":"washington commanders",
+ "football team":"washington commanders","washington football team":"washington commanders"
+};
+function canonicalTeam(s){const n=norm(s);return TEAM_ALIASES[n]||n;}
+function variants(value,type){
+ const n=norm(value), out=new Set([n]);
+ if(type==="team")out.add(canonicalTeam(value));
+ if(type==="college"){
+   const replacements=[
+    [/\bpennsylvania state\b/g,"penn state"],[/\bpennsylvania st\b/g,"penn state"],[/\bpenn st\b/g,"penn state"],
+    [/\buniversity of\b/g,""],[/\bthe\b/g,""],[/\bst\b/g,"state"],[/\bcal\b/g,"california"],
+    [/\busc\b/g,"southern california"],[/\blsu\b/g,"louisiana state"],[/\bmiami fl\b/g,"miami"],
+    [/\bucf\b/g,"central florida"],[/\bunlv\b/g,"nevada las vegas"]
+   ];
+   for(const [re,val] of replacements){const x=n.replace(re,val).replace(/\s+/g," ").trim();if(x)out.add(x);}
+ }
+ return out;
+}
+function getConnections(p){
+ const list=[];
+ (p.teams||[]).forEach(v=>{if(v)addConn(list,v,"team");});
+ (p.colleges||[]).forEach(v=>{if(v)addConn(list,v,"college");});
+ (p.numbers||[]).forEach(v=>{if(v!==""&&v!=null)addConn(list,String(v),"number");});
+ return list;
+}
+function addConn(list,value,type){
+ const canonical=type==="team"?canonicalTeam(value):String(value).trim();
+ if(!canonical)return;
+ const key=type+":"+norm(canonical);
+ if(!list.some(c=>c.key===key))list.push({type,value:canonical,key});
+}
+function connectionMatches(a,b){
+ if(a.type!==b.type)return false;
+ if(a.type==="number")return norm(a.value)===norm(b.value);
+ const av=variants(a.value,a.type),bv=variants(b.value,b.type);
+ return [...av].some(x=>bv.has(x));
+}
+function findPlayerAnswer(answer,connection){
+ const a=norm(answer);
+ return players.filter(p=>norm(p.name)===a && getConnections(p).some(c=>connectionMatches(c,connection)));
+}
+function displayPrompt(){
+ if(!currentPrompt)return;
+ $("playerNumber").textContent=currentPrompt.kind==="player"?"PLAYER PROMPT":"CONNECTION PROMPT";
+ $("playerName").textContent=currentPrompt.value;
+ $("promptLabel").textContent=currentPrompt.kind==="player"?"Current player":"Find a connected player";
+ $("playerMeta").textContent=currentPrompt.kind==="player"
+   ?((currentPrompt.player.positions||[]).slice(0,2).join(" / ")||"NFL player")+" · Find a team, college, or number"
+   :"Name an NFL player connected to this "+currentPrompt.connection.type;
+ $("questionText").innerHTML=currentPrompt.kind==="player"
+   ?'Enter a connected <b>NFL team, college, or jersey number</b>.'
+   :'Name an <b>NFL player</b> connected to this prompt.';
+ $("roundPill").textContent="ROUND "+String(round).padStart(2,"0");
+}
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null;}running=false;}
+function paintTimer(){
+ const total=durations[mode],pct=Math.max(0,timeLeft/total*100);
+ $("timerValue").textContent=Number.isInteger(timeLeft)?String(timeLeft):timeLeft.toFixed(1);
+ $("timerRing").style.background=`conic-gradient(${timeLeft<=total*.25?'#d77b73':'#8eaf98'} ${pct}%, #34454e 0)`;
+}
+function startTimer(){
+ stopTimer();timeLeft=durations[mode];paintTimer();running=true;
+ $("timerNote").innerHTML="Clock is running.<br>Make your answer count.";
+ timerId=setInterval(()=>{timeLeft=Math.max(0,Math.round((timeLeft-.1)*10)/10);paintTimer();if(timeLeft<=0){stopTimer();streak=0;$("streak").textContent=0;$("feedback").textContent="Time's up! Chain ended."; $("feedback").className="feedback bad";$("timerNote").innerHTML="Time expired.<br>Restart to try again.";setEnabled(false);}},100);
+}
+function setEnabled(on){$("answerInput").disabled=!on;$("submitBtn").disabled=!on;$("skipBtn").disabled=!players.length;}
+// Recognizable skill-position players used as the opening prompt pool.
+// Player names are matched against the imported database; missing names are simply skipped.
+const FEATURED_STARTERS = [
+ "Patrick Mahomes","Josh Allen","Lamar Jackson","Joe Burrow","Jalen Hurts","Dak Prescott",
+ "Aaron Rodgers","Tom Brady","Peyton Manning","Drew Brees","Brett Favre","Dan Marino",
+ "Justin Herbert","C.J. Stroud","Trevor Lawrence","Caleb Williams","Jayden Daniels",
+ "Christian McCaffrey","Derrick Henry","Saquon Barkley","Bijan Robinson","Jahmyr Gibbs",
+ "Jonathan Taylor","Josh Jacobs","Alvin Kamara","Nick Chubb","Adrian Peterson","Barry Sanders",
+ "Emmitt Smith","Walter Payton","LaDainian Tomlinson","Marshall Faulk","Ezekiel Elliott",
+ "Randy Moss","Jerry Rice","Calvin Johnson","Larry Fitzgerald","Terrell Owens","DeAndre Hopkins",
+ "Justin Jefferson","Ja'Marr Chase","CeeDee Lamb","Tyreek Hill","A.J. Brown","Davante Adams",
+ "Stefon Diggs","Mike Evans","Ja'Marr Chase","Marvin Harrison","Odell Beckham Jr.",
+ "Rob Gronkowski","Travis Kelce","George Kittle","Tony Gonzalez","Antonio Gates",
+ "Shannon Sharpe","Jason Witten","Mark Andrews","Sam LaPorta","T.J. Hockenson"
+];
+const ALLOWED_SKILL_POSITIONS = new Set(["QB","RB","WR","TE"]);
+function playerHasAllowedPosition(p){
+  return (p.positions || []).some(pos => ALLOWED_SKILL_POSITIONS.has(String(pos).trim().toUpperCase()));
+}
+function findFeaturedStarters(){
+  const byName = new Map(players.map(p => [norm(p.name), p]));
+  return [...new Set(FEATURED_STARTERS.map(name => byName.get(norm(name))).filter(Boolean))]
+    .filter(p => playerHasAllowedPosition(p) && getConnections(p).length > 0);
+}
+function randomStart(){
+ if(!players.length)return;
+ // Prefer recognizable names for the opening prompt, limited to QB/RB/WR/TE.
+ let eligible=findFeaturedStarters();
+ if(!eligible.length)eligible=players.filter(p=>playerHasAllowedPosition(p)&&getConnections(p).length>0);
+ if(!eligible.length)eligible=players.filter(p=>getConnections(p).length>0);
+ const p=eligible[Math.floor(Math.random()*eligible.length)];
+ currentPrompt={kind:"player",value:p.name,player:p};
+ lastPlayerId=p.id;usedPlayerIds=new Set([p.id]);round=1;displayPrompt();$("answerInput").value="";
+ $("feedback").textContent="Opening player selected. Make a connection!";
+ $("feedback").className="feedback";setEnabled(true);startTimer();$("answerInput").focus();
+}
+function moveToPlayer(p){
+ lastPlayerId=p.id;usedPlayerIds.add(p.id);currentPrompt={kind:"player",value:p.name,player:p};round++;
+ displayPrompt();$("answerInput").value="";$("feedback").textContent="Valid connection! Now connect this player to a team, college, or number.";
+ $("feedback").className="feedback good";startTimer();$("answerInput").focus();
+}
+function moveToConnection(c){
+ currentPrompt={kind:"connection",value:c.value,connection:c};round++;
+ displayPrompt();$("answerInput").value="";$("feedback").textContent="Correct! Now name a player connected to this prompt.";
+ $("feedback").className="feedback good";startTimer();$("answerInput").focus();
+}
+function submitAnswer(raw){
+ const answer=raw.trim();if(!answer||!currentPrompt||!running)return;
+ if(currentPrompt.kind==="player"){
+   const conns=getConnections(currentPrompt.player);
+   const typed=norm(answer);
+   const match=conns.find(c=>{
+     if(c.type==="number")return norm(c.value)===typed;
+     return variants(c.value,c.type).has(typed) || (c.type==="team"&&variants(canonicalTeam(c.value),"team").has(canonicalTeam(answer)));
+   });
+   if(match){score++;streak++;$("score").textContent=score;$("streak").textContent=streak;moveToConnection(match);}
+   else{$("feedback").textContent="Not a listed connection for this player. Try a team, college, or jersey number.";$("feedback").className="feedback bad";$("answerInput").select();}
+ }else{
+   const matches=findPlayerAnswer(answer,currentPrompt.connection).filter(playerHasAllowedPosition);
+   if(matches.length){
+     let p=matches.find(x=>x.id!==lastPlayerId)||matches[0];
+     score++;streak++;$("score").textContent=score;$("streak").textContent=streak;moveToPlayer(p);
+   }else{
+     $("feedback").textContent="That player isn't linked to "+currentPrompt.value+" in this database. Try another player.";
+     $("feedback").className="feedback bad";$("answerInput").select();
+   }
+ }
+}
+async function loadDatabase(){
+ try{
+  const response=await fetch("./players.json");
+  if(!response.ok)throw new Error("players.json returned HTTP "+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data.players)||!data.players.length)throw new Error("The JSON file has no players array or it is empty.");
+  players=data.players.filter(p=>p&&p.name);
+  $("dbStatus").innerHTML='Database: <strong>'+players.length.toLocaleString()+" players loaded</strong>";
+  $("feedback").textContent="Database loaded. Choose a difficulty and start your chain.";
+  $("feedback").className="feedback good";$("timerNote").innerHTML="Ready to play.<br>Choose your level.";
+  setEnabled(true);randomStart();
+ }catch(err){
+  $("playerName").textContent="Database not loaded";
+  $("playerMeta").textContent="Could not read players.json";
+  $("questionText").textContent="Make sure players.json is in the same folder as index.html and that you opened the site through the local server.";
+  $("feedback").textContent=err.message+" — run: python -m http.server 8000";
+  $("feedback").className="feedback bad";
+  $("dbStatus").innerHTML='Database: <strong>load failed</strong>';
+  setEnabled(false);
+ }
+}
+$("answerForm").addEventListener("submit",e=>{e.preventDefault();submitAnswer($("answerInput").value);});
+$("skipBtn").addEventListener("click",()=>{stopTimer();score=0;streak=0;$("score").textContent=0;$("streak").textContent=0;randomStart();});
+document.querySelectorAll(".mode").forEach(btn=>btn.addEventListener("click",()=>{mode=btn.dataset.mode;document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b===btn));if(players.length&&currentPrompt&&timeLeft>0)startTimer();}));
+loadDatabase();
+</script>
+</body>
+</html>
